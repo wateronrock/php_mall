@@ -47,17 +47,13 @@ if(!$result) exit("에러: $sql");
             <td><?= $row['sum'] ?></td>
             <td><?= $row['avg'] ?></td>
             <td class="d-inline-flex">
-                <form action="sj_edit.php" method="post">
-                    <input type="hidden" value="<?= $id?>">
-                    <button class="btn btn-sm btn-outline-primary py-0 my-0">수정</button>
-                </form>&nbsp;
-                <form action="sj_delete.php" method="post">
-                    <input type="hidden" value="<?= $id?>">
-                    <button class="btn btn-sm btn-outline-primary py-0 my-0"
-                        onclick="return confirm('삭제할까요?');">삭제</button>
-                </form>
+                <a href="sj_edit.php?id=<?= $id ?>"
+                class="btn btn-sm btn-outline-primary py-0 my-0">수정</a>&nbsp;
+                <a href="sj_delete.php?id=<?= $id ?>"
+                class="btn btn-sm btn-outline-primary py-0 my-0"
+                onclick="return confirm('삭제할까요?');">삭제</a>
             </td>
         </tr>
     <?php endforeach; ?>
     </table>
-<?php include('test_footer.php'); ?>
+<?php include('footer.php'); ?>
