@@ -12,6 +12,11 @@ if(!$result) exit("에러: $sql");
 $row = mysqli_fetch_array($result);
 $count = $row[0];//이제 가져올 전체 line 수(레코드 수)를 알았다.
 
+// 한 페이지 당 데이터 표시 갯수
+$page_line = 4;
+
+// 한 블럭당 페이지 링크 표시 갯수
+$page_block = 5;
 
 $first = ($page - 1) * $page_line; // 1페이지는 레코드 0번 (id와는 다름)부터 시작하고
 // 2페이지는 15번부터 시작한다($page_line=15이므로).
@@ -77,6 +82,8 @@ if(!$result) exit("에러: $sql");
 <?php 
 // ** 페이지네이션 표시 로직 **
 
+
+
 //이름 검색 또는 페이지 이동에도 여전히 sj_list.php가 표시한다.
 $url = "sj_list.php?text1=$text1";
 
@@ -96,38 +103,18 @@ $block = ceil($page/$page_block);
 // 62 페이지가 13번 블럭에 들어가므로 12번 블럭 마지막 링크 다음 번호가 13번 블럭의 첫 번호호 일것이다. 
 // 12*5 = 60이므로 다름인인 61번 페이지 링크부터 5개를 표시하게 된다.
 // 즉 현재 페이지가 속한 블럭의 이전 블럭의 마지막 링크를 구하여 +1을 하면 된다.
-$page_s = $page_blcok*($block-1);
-$page_e = $page_blcok*$block;
+$page_s = $page_block*($block-1);
+$page_e = $page_block*$block;
+
+// echo $page_s." : ".$page_e; exit();
 
 // 끝 블럭에 이르면 마지막 링크는 전체 페이지의 끝 페이지라야 한다.
 if($blocks<=$block) $page_e = $pages;
 ?>
-<!-- bootstrap5를 기준으로 페이지 네비를 기술한다 -->
-<nav>
-  <ul class="pagination pagination-sm justify-content-center py-1">
-<?php if($block>1): ?>
-    <li class="page-item">
-      <a class="page-link" href="<?=$url?>&page=<?=$page_s?>">◀</a>
-    </li>
-<?php endif;?>
-<?php for($i = $page_s+1;$i<=$page_e;$i++):?>
-    <?php if($i == $page):?>
-        <li class="page-item active">
-            <span class="page-link mycolor1"><?=$i?></span>
-        </li>
-    <?php else:?>
-        <li class="page-item">
-            <a class="page-link" href="<?=$url?>&page=<?=$i?>"><?=$i ?></a>
-        </li>
-    <?php endif; ?>
-<?php endfor;?>
-<?php if($block < $blocks): ?>
-    <li class="page-item">
-      <a class="page-link" href="<?=$url?>&page=<?=$page_s?>"> ▶ </a>
-    </li>
-<?php endif;?>
-  </ul>
-</nav>
+
+
+
 <?php
+include "pagination.php";
 include('footer.php'); 
 ?>
