@@ -2,7 +2,6 @@
 
 include("common.php");
 
-// 페이지네이션 변수 결정정 로직
 $text1 = $_REQUEST['text1'] ? $_REQUEST['text1'] : "";
 $page = $_REQUEST['page'] ? $_REQUEST['page'] : 1;
 
@@ -13,13 +12,11 @@ if (!$result)
 $row = mysqli_fetch_array($result);
 $count = $row[0];//이제 가져올 전체 line 수(레코드 수)를 알았다.
 
-
-// /한 페이지 당 데이터 표시 갯수
-$page_line =3;
+// 한 페이지에 보여줄 자료 갯수
+$page_line = 3;
 
 // 한 블럭당 페이지 링크 표시 갯수
 $page_block = 5;
-
 
 $first = ($page - 1) * $page_line; // 1페이지는 레코드 0번 (id와는 다름)부터 시작하고
 // 2페이지는 15번부터 시작한다($page_line=15이므로).
@@ -112,7 +109,7 @@ $blocks = ceil($pages / $page_block);
 $block = ceil($page / $page_block);
 
 // 62 페이지는 몇 번 블럭에 포함될까? 62/5=12.4이나 올림처리하면 13번 블록이다. 즉 62
-// 페이지에는 13번 블록의 5 링크를 표시하면 된다. 시작 번호만 알면 연이어 5개를 표시하는 것이다.
+// 페이지에는 13번 블록의 다섯섯 링크를 표시하면 된다. 시작 번호만 알면 연이어 5개를 표시하는 것이다.
 // 13번 블록의 처음 시작 링크는 12번 블록의 마지막의 다음 번일 것이다. 12*5 =60, 즉 12 블럭의
 // 마지막 페이지 링크는 60이었으므로 13번 블럭은 61,62,63,64,65의 다섯 개로 구성된다.그러므로
 // 즉 현재 페이지가 속한 블럭의 첫 링크는 이전 블럭의 마지막 링크를 구하여 +1을 하면 된다.
@@ -122,11 +119,40 @@ $page_e = $page_block * $block;
 
 //  $blocks는 전체 블럭의 수이며 $block은 현재 페이지의 블럭이다. 
 // 끝 블럭에 이르면 마지막 링크는 전체 페이지의 끝 페이지라야 한다.
-if ($blocks <= $block)
-    $page_e = $pages;
+if ($blocks <= $block) $page_e = $pages;
+
+$pagebar = "<nav>
+  <ul class='pagination pagination-sm justify-content-center py-1'>";
+
+if($block>1)
+        $pagebar .= "<li class='page-item'>
+      <a class='page-link' href='$url&page=$page_s'>◀</a>
+    </li>";
+
+for($i = $page_s+1;$i<=$page_e;$i++)
+{
+    if($page == $i)
+        $pagebar .= "<li class='page-item active'>
+            <span class='page-link mycolor1'>$i</span>
+        </li>";
+    else
+        $pagebar .= "<li class='page-item'>
+            <a class='page-link' href='$url&page=$i'>$i</a>
+        </li>";
+}
+
+if($block < $blocks )
+    $pagebar .= "<li class='page-item'>
+      <a class='page-link' href='$url&page=" . ($page_e+1) . "'> ▶ </a>
+    </li>";
+
+$pagebar .= "</ul>
+</nav>";
+
+echo $pagebar;
 ?>
 
 <?php
-include "pagination.php";
+// include "pagination.php";
 include('footer.php');
 ?>
