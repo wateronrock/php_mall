@@ -7,7 +7,7 @@
 
     $sql = "select * from sj where id = $id";
     $result = mysqli_query($db, $sql);
-    if(!$result) eixt("에러 : $sql");
+    if(!$result) exit("에러 : $sql");
 
     $row = mysqli_fetch_array($result);
 

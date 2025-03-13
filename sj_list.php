@@ -3,30 +3,11 @@
 include("common.php");
 
 // 페이지네이션 변수 결정정 로직
-$text1 = $_REQUEST['text1'] ? $_REQUEST['text1'] : "";
-$page = $_REQUEST['page'] ? $_REQUEST['page'] : 1;
+$text1 = $_REQUEST['text1'] ?? "";
 
-$sql = "select  count(*) from sj where name like '%$text1%' order by name";     
-$result = mysqli_query($db, $sql);
-if(!$result) exit("에러: $sql");
-$row = mysqli_fetch_array($result);
-$count = $row[0];//이제 가져올 전체 line 수(레코드 수)를 알았다.
-
-// 한 페이지 당 데이터 표시 갯수
-$page_line = 4;
-
-// 한 블럭당 페이지 링크 표시 갯수
-$page_block = 5;
-
-$first = ($page - 1) * $page_line; // 1페이지는 레코드 0번 (id와는 다름)부터 시작하고
-// 2페이지는 15번부터 시작한다($page_line=15이므로).
-
-$sql = "select * from sj where name like '%$text1%' order by name  limit $first, $page_line";
-$result = mysqli_query($db, $sql);
-if(!$result) exit("에러: $sql");
-
-
-
+$sql = "select  * from sj where name like '%$text1%' order by name";   
+$args = "text1=$text1";
+$result = mypagination($sql, $args, $pagebar);
 ?>
 
 <?php include('sj_header.php'); ?>
@@ -77,44 +58,7 @@ if(!$result) exit("에러: $sql");
     <?php endforeach; ?>
     </table>
 
-
-
-<?php 
-// ** 페이지네이션 표시 로직 **
-
-
-
-//이름 검색 또는 페이지 이동에도 여전히 sj_list.php가 표시한다.
-$url = "sj_list.php?text1=$text1";
-
-// 전체 페이지 수; 3.4라도 4 페이지를 차지, 페이지라인은 common.php에 설정됨
-$pages = ceil($count/$page_line);
-
-// 1000 개의 자료라면 한 페이지에 15개($page_line)씩 표시한다면 총 67 페이지가 필요하게 되며 
-// 페이지네이션에는 5개의 페이지 링크($page_block)만 표시하도록 하였다.
-// 먼저 전체 블록의 수를 구한다
-$blocks = ceil($pages/$page_block);
-
-// 현재 페이지가 62 페이지라면 어떤 5개의 페이지 링크를 표시해야 할까?
-// 먼저 현재 페이지가 몇 번째 블럭에 해당하는지를 결정한다. 62/5 = 12.4이므로 올림처리하면 13번 블럭이 된다.
-$block = ceil($page/$page_block);
-
-// 62 페이지에 하단에 표시될 첫 페이지 링크는 몇 번이 될까? 
-// 62 페이지가 13번 블럭에 들어가므로 12번 블럭 마지막 링크 다음 번호가 13번 블럭의 첫 번호호 일것이다. 
-// 12*5 = 60이므로 다름인인 61번 페이지 링크부터 5개를 표시하게 된다.
-// 즉 현재 페이지가 속한 블럭의 이전 블럭의 마지막 링크를 구하여 +1을 하면 된다.
-$page_s = $page_block*($block-1);
-$page_e = $page_block*$block;
-
-// echo $page_s." : ".$page_e; exit();
-
-// 끝 블럭에 이르면 마지막 링크는 전체 페이지의 끝 페이지라야 한다.
-if($blocks<=$block) $page_e = $pages;
-?>
-
-
-
 <?php
-include "pagination.php";
+echo $pagebar;
 include('footer.php'); 
 ?>
