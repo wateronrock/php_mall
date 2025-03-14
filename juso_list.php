@@ -39,6 +39,7 @@ $result = mypagination($sql, $args, $pagebar);
     </tr>
     <?php foreach ($result as $row): ?>
         <?php
+        $id = $row['id'];
         if ($row['sm'] == 0)
             $sm = "양력";
         else
