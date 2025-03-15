@@ -20,13 +20,13 @@
 		&nbsp;<a href="index.html"><font color="#777777">INDUK Mall</font></a>
 	</div>
 	<div class="col mt-3" align="right" style="font-size:12px;">
-		<a href="index.html">Home</a>&nbsp;|&nbsp;
-		<a href="member_login.html">Login</a>&nbsp;|&nbsp;
-		<a href="member_join.html">회원가입</a>&nbsp;|&nbsp;
-		<a href="cart.html">장바구니</a>&nbsp;|&nbsp; 
-		<a href="jumun_login.html">주문조회</a>&nbsp;|&nbsp;
-		<a href="qa.html">Q & A</a>&nbsp;|&nbsp;
-		<a href="faq.html">FAQ</a>&nbsp;&nbsp;
+		<a href="index.php">Home</a>&nbsp;|&nbsp;
+		<a href="member_login.php">Login</a>&nbsp;|&nbsp;
+		<a href="member_join.php">회원가입</a>&nbsp;|&nbsp;
+		<a href="cart.php">장바구니</a>&nbsp;|&nbsp; 
+		<a href="jumun_login.php">주문조회</a>&nbsp;|&nbsp;
+		<a href="qa.php">Q & A</a>&nbsp;|&nbsp;
+		<a href="faq.php">FAQ</a>&nbsp;&nbsp;
 	</div>
 </div>
 
