@@ -5,8 +5,9 @@
     $kor = $_REQUEST['kor'];
     $eng = $_REQUEST['eng'];
     $mat = $_REQUEST['mat'];
-    $sum = $kor + $eng + $mat;
-    $avg = round($sum/3, 1);
+
+    $sum = $_REQUEST['sum'];
+    $avg = $_REQUEST['avg'];
 
     $sql = "insert into sj (id, name, kor, eng, mat, sum, avg)
         values ('', '$name', $kor, $eng, $mat, $sum, $avg)";
